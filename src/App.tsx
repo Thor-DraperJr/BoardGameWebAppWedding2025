@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import GameCard from './components/GameCard';
 import GameFilter from './components/GameFilter';
 import AdminPanel from './components/AdminPanel';
