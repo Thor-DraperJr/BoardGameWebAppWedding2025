@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: wedding-board-games
+metadata:
+  template: wedding-board-games@0.0.1-beta
+
+services:
+  web:
+    project: .
+    language: js
+    host: staticwebapp
+
+hooks:
+  postprovision:
+    shell: pwsh
+    run: |
+      Write-Host "🎲 Wedding Board Games app has been deployed!"
+      Write-Host "You can now customize the games in src/data/games.ts"

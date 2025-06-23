@@ -1,0 +1,190 @@
+[
+  {
+    "id": "1",
+    "title": "Kollide",
+    "gameType": "Family",
+    "playerCount": "1-4 players",
+    "duration": "30-90 min",
+    "instructionsUrl": "https://youtu.be/-gCpZpE1Wp4?si=iSi3K_HD1wWqqAry"
+  },
+  {
+    "id": "2",
+    "title": "Thrive",
+    "gameType": "Strategy",
+    "playerCount": "2 players",
+    "difficulty": "Medium",
+    "duration": "25 min",
+    "instructionsUrl": "https://youtu.be/waCWcakx_74?si=X2I7rp4iPjFOhdvI"
+  },
+  {
+    "id": "3",
+    "title": "Quixo",
+    "gameType": "Abstract Strategy",
+    "playerCount": "2-4 players",
+    "difficulty": "Easy",
+    "duration": "15 min",
+    "instructionsUrl": "https://youtu.be/l5uddgdgXnI?si=XjRhkfxE0D-XG_M-"
+  },
+  {
+    "id": "4",
+    "title": "Word Nerd",
+    "gameType": "Word Game",
+    "playerCount": "2+ players",
+    "difficulty": "Easy",
+    "duration": "15-20 min",
+    "instructionsUrl": ""
+  },
+  {
+    "id": "5",
+    "title": "Codenames",
+    "gameType": "Party",
+    "playerCount": "2-8 players",
+    "difficulty": "Medium",
+    "duration": "15-20 min",
+    "instructionsUrl": "https://youtu.be/zQVHkl8oQEU?si=W_bjpWci4YS6jIRV"
+  },
+  {
+    "id": "6",
+    "title": "Poetry for Neanderthals",
+    "gameType": "Party",
+    "playerCount": "2+ players",
+    "difficulty": "Easy",
+    "duration": "15 min",
+    "instructionsUrl": "https://youtu.be/pHoFFcIcMj0?si=qh9Do4o_CzzkG8wP"
+  },
+  {
+    "id": "7",
+    "title": "Smart Ass",
+    "gameType": "Party",
+    "playerCount": "2+ players",
+    "difficulty": "Easy",
+    "duration": "15-20 min",
+    "instructionsUrl": "https://youtu.be/7vQCZ5I-vw0?si=fMtEWDE34HFxDkdD"
+  },
+  {
+    "id": "8",
+    "title": "Wavelength",
+    "gameType": "Party",
+    "playerCount": "2-12+ players",
+    "difficulty": "Easy",
+    "duration": "30-45 min",
+    "instructionsUrl": "https://youtu.be/a79FPJgpJCk?si=4VCK9gYu_AyxHdfd"
+  },
+  {
+    "id": "9",
+    "title": "Azul",
+    "gameType": "Strategy",
+    "playerCount": "2-4 players",
+    "difficulty": "Medium",
+    "duration": "30-45 min",
+    "instructionsUrl": "https://youtu.be/193R2h2M3Yk?si=6LfOPFApDOAr0Rux"
+  },
+  {
+    "id": "10",
+    "title": "Chakra",
+    "gameType": "Family",
+    "playerCount": "2-4 players",
+    "difficulty": "Medium",
+    "duration": "30 min",
+    "instructionsUrl": "https://youtu.be/zfQIGNjgC44?si=ZuUQDrc7TaiO4NDH"
+  },
+  {
+    "id": "11",
+    "title": "Fire Tower",
+    "gameType": "Dexterity",
+    "playerCount": "2-4 players",
+    "difficulty": "Easy",
+    "duration": "15-30 min",
+    "instructionsUrl": "https://youtu.be/wfogWGb4gl8?si=UQWZUMR3EEOB25Hi"
+  },
+  {
+    "id": "12",
+    "title": "Pandemic",
+    "gameType": "Cooperative",
+    "playerCount": "2-4 players",
+    "difficulty": "Medium",
+    "duration": "45 min",
+    "instructionsUrl": "https://youtu.be/ojkScPkdgsk?si=sMYJ5_tf5Fs8LKBJ"
+  },
+  {
+    "id": "13",
+    "title": "Splendor",
+    "gameType": "Strategy",
+    "playerCount": "2-4 players",
+    "difficulty": "Medium",
+    "duration": "30 min",
+    "instructionsUrl": "https://youtu.be/rue8-jvbc9I?si=HhtTvdBXDCLuuL96"
+  },
+  {
+    "id": "14",
+    "title": "You Lying Sack",
+    "gameType": "Party",
+    "playerCount": "2-5 players",
+    "difficulty": "Easy",
+    "duration": "15 min",
+    "instructionsUrl": "https://youtu.be/xqNUZFs4iXw?si=tekshguq0NiEkQGL"
+  },
+  {
+    "id": "15",
+    "title": "Exploding Kittens",
+    "gameType": "Card Game",
+    "playerCount": "2-5 players",
+    "difficulty": "Easy",
+    "duration": "15 min",
+    "instructionsUrl": "https://youtu.be/kAkRKuv5Rts?si=jKLFarkF45Eb07_w"
+  },
+  {
+    "id": "16",
+    "title": "Ka-blab",
+    "gameType": "Party",
+    "playerCount": "2-6 players",
+    "difficulty": "Easy",
+    "duration": "30-45 min",
+    "instructionsUrl": "https://youtu.be/DdQCEElGSx4?si=8JCfk8kyNV7pVOuK"
+  },
+  {
+    "id": "17",
+    "title": "Modern Art",
+    "gameType": "Strategy",
+    "playerCount": "3-5 players",
+    "difficulty": "Hard",
+    "duration": "60 min",
+    "instructionsUrl": "https://youtu.be/CrwHrstvA0k?si=gU-Js_HVNWdgLvN2"
+  },
+  {
+    "id": "18",
+    "title": "Skull",
+    "gameType": "Party",
+    "playerCount": "3-6 players",
+    "difficulty": "Easy",
+    "duration": "30 min",
+    "instructionsUrl": "https://youtu.be/9mFSaPEoU1c?si=EE9VjG6MATqWMvp9"
+  },
+  {
+    "id": "19",
+    "title": "Get A Hint",
+    "gameType": "Party",
+    "playerCount": "4+ players",
+    "difficulty": "Easy",
+    "duration": "45 min",
+    "instructionsUrl": "https://youtu.be/9pESuFu-Pww?si=-F24rxG9ZCemMdGK"
+  },
+  {
+    "id": "20",
+    "title": "Quoridor",
+    "gameType": "Abstract Strategy",
+    "playerCount": "2-4 players",
+    "difficulty": "Medium",
+    "duration": "15 min",
+    "instructionsUrl": "https://youtu.be/39T3L6hNfmg?si=fyanHAvQEHBS6WoV"
+  },
+  {
+    "id": "21",
+    "title": "Throw Throw Burrito",
+    "gameType": "Party",
+    "playerCount": "2-6 players",
+    "difficulty": "Easy",
+    "duration": "15 min",
+    "instructionsUrl": "https://youtu.be/L0o4P3nuMjU?si=zn1S_JKbIpdsEAKA"
+  }
+]
