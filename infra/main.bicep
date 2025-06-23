@@ -9,7 +9,8 @@ param location string = resourceGroup().location
 @description('SKU for the static web app')
 param sku string = 'Free'
 
-resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {  name: staticWebAppName
+resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
+  name: staticWebAppName
   location: location
   sku: {
     name: sku
