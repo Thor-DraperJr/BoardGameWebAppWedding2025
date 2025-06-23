@@ -1,36 +1,34 @@
 import React from 'react';
+import { GameFilter as GameFilterType, FilterNavProps } from '../types/gameTypes';
+import { FILTER_ALL, FILTER_AVAILABLE, FILTER_PLAYING, CSS_CLASSES } from '../constants';
 import './GameFilter.css';
 
-interface GameFilterProps {
-  activeFilter: 'all' | 'available' | 'playing';
-  onFilterChange: (filter: 'all' | 'available' | 'playing') => void;
-  counts: {
-    all: number;
-    available: number;
-    playing: number;
-  };
-}
-
-const GameFilter: React.FC<GameFilterProps> = ({ activeFilter, onFilterChange, counts }) => {
+const GameFilter: React.FC<FilterNavProps> = ({ 
+  currentFilter, 
+  onFilterChange, 
+  availableCount, 
+  playingCount, 
+  totalCount 
+}) => {
   return (
-    <div className="game-filter">
+    <div className={CSS_CLASSES.FILTER_NAV}>
       <button
-        className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
-        onClick={() => onFilterChange('all')}
+        className={`filter-button ${currentFilter === FILTER_ALL ? CSS_CLASSES.FILTER_BUTTON_ACTIVE : ''}`}
+        onClick={() => onFilterChange(FILTER_ALL as GameFilterType)}
       >
-        🎲 All Games ({counts.all})
+        🎲 All Games ({totalCount})
       </button>
       <button
-        className={`filter-button ${activeFilter === 'available' ? 'active' : ''}`}
-        onClick={() => onFilterChange('available')}
+        className={`filter-button ${currentFilter === FILTER_AVAILABLE ? CSS_CLASSES.FILTER_BUTTON_ACTIVE : ''}`}
+        onClick={() => onFilterChange(FILTER_AVAILABLE as GameFilterType)}
       >
-        ✅ Available ({counts.available})
+        ✅ Available ({availableCount})
       </button>
       <button
-        className={`filter-button ${activeFilter === 'playing' ? 'active' : ''}`}
-        onClick={() => onFilterChange('playing')}
+        className={`filter-button ${currentFilter === FILTER_PLAYING ? CSS_CLASSES.FILTER_BUTTON_ACTIVE : ''}`}
+        onClick={() => onFilterChange(FILTER_PLAYING as GameFilterType)}
       >
-        🎮 In Progress ({counts.playing})
+        🎮 In Progress ({playingCount})
       </button>
     </div>
   );

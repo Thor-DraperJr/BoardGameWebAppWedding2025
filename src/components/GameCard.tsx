@@ -1,26 +1,26 @@
 import React from 'react';
-import { BoardGame } from '../types/BoardGame';
-import { useGames } from '../context/GameContext';
+import { Game } from '../types/gameTypes';
+import { CSS_CLASSES } from '../constants';
 import './GameCard.css';
 
 interface GameCardProps {
-  game: BoardGame;
+  game: Game;
+  onToggleStatus: (gameId: string) => void;
 }
 
-const GameCard: React.FC<GameCardProps> = ({ game }) => {
-  const { togglePlayingStatus } = useGames();
-
+const GameCard: React.FC<GameCardProps> = ({ game, onToggleStatus }) => {
   const handleToggleStatus = () => {
-    togglePlayingStatus(game.id);
+    onToggleStatus(game.id);
   };
+  const isPlaying = game.isBeingPlayed;
 
   return (
-    <div className={`game-card ${game.isBeingPlayed ? 'in-progress' : ''}`}>
+    <div className={`${CSS_CLASSES.GAME_CARD} ${isPlaying ? CSS_CLASSES.GAME_CARD_PLAYING : CSS_CLASSES.GAME_CARD_AVAILABLE}`}>
       <div className="game-header">
         <h3 className="game-title">{game.title}</h3>
         <div className="game-tags">
-          <span className="game-type-tag">{game.gameType}</span>
-          <span className="player-count-tag">{game.playerCount}</span>
+          <span className="game-type-tag">{game.type}</span>
+          <span className="player-count-tag">{game.players}</span>
           {game.difficulty && (
             <span className={`difficulty-tag difficulty-${game.difficulty.toLowerCase()}`}>
               {game.difficulty}
@@ -32,16 +32,16 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         </div>
       </div>
 
-      {game.isBeingPlayed && (
+      {isPlaying && (
         <div className="playing-status">
           <span className="playing-indicator">🎮 Currently being played!</span>
         </div>
       )}
       
       <div className="game-actions">
-        {game.instructionsUrl && (
+        {game.howToPlayUrl && (
           <a 
-            href={game.instructionsUrl} 
+            href={game.howToPlayUrl} 
             target="_blank" 
             rel="noopener noreferrer"
             className="link-button instructions-link"
@@ -52,9 +52,9 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         
         <button 
           onClick={handleToggleStatus}
-          className={`status-button ${game.isBeingPlayed ? 'finish-button' : 'start-button'}`}
+          className={`status-button ${isPlaying ? 'finish-button' : 'start-button'}`}
         >
-          {game.isBeingPlayed ? '✅ Mark as Available' : '🎯 Start Playing'}
+          {isPlaying ? '✅ Mark as Available' : '🎯 Start Playing'}
         </button>
       </div>
     </div>

@@ -6,7 +6,7 @@ A beautiful, interactive web application for managing board games at your weddin
 
 ## 🎯 Features
 
-- **Real-Time Availability Tracking**: Mark games as "being played" so guests know what's available
+- **Game Availability Tracking**: Mark games as "being played" so guests know what's available
 - **Smart Filtering**: View all games, only available games, or games currently in progress  
 - **Complete Game Information**: Title, type, player count, difficulty, duration, and instruction links
 - **YouTube Integration**: Direct links to how-to-play videos for each game
@@ -14,7 +14,7 @@ A beautiful, interactive web application for managing board games at your weddin
 - **Responsive Design**: Perfect on phones, tablets, and desktop computers
 - **Wedding-Ready Styling**: Elegant gradient background with modern card design
 - **Admin Panel**: Hidden admin controls for game management (click the floating button)
-- **No Database Required**: All state managed in-browser, resets fresh for each session
+- **Session-Based State**: Game status persists during the session, resets fresh for each new session
 
 ## 🎮 How It Works
 

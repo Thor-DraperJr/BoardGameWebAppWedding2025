@@ -3,27 +3,30 @@ targetScope = 'resourceGroup'
 @description('Name of the static web app')
 param staticWebAppName string = 'wedding-board-games'
 
-@description('Location for the static web app')
+@description('Location for all resources')
 param location string = resourceGroup().location
 
 @description('SKU for the static web app')
-param sku string = 'Free'
+param staticWebAppSku string = 'Free'
 
+// Static Web App with API support
 resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
   name: staticWebAppName
   location: location
   sku: {
-    name: sku
-    tier: sku
+    name: staticWebAppSku
+    tier: staticWebAppSku
   }
   properties: {
     repositoryUrl: 'https://github.com/Thor-DraperJr/BoardGameWebAppWedding2025'
     branch: 'main'
     buildProperties: {
       appLocation: '/'
+      apiLocation: 'api'
       outputLocation: 'dist'
       appBuildCommand: 'npm run build'
     }
+    allowConfigFileUpdates: true
   }
   tags: {
     'azd-service-name': 'web'

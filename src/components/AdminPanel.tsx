@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useGames } from '../context/GameContext';
+import { AdminPanelProps } from '../types/gameTypes';
 import './AdminPanel.css';
 
-const AdminPanel: React.FC = () => {
-  const { games, togglePlayingStatus } = useGames();
+const AdminPanel: React.FC<AdminPanelProps> = ({ 
+  games, 
+  onToggleStatus, 
+  onResetAllGames 
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [adminCode, setAdminCode] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,8 +22,8 @@ const AdminPanel: React.FC = () => {
       alert('Incorrect admin code');
     }
   };
-
-  const resetAllGames = () => {
+  
+  const handleResetAllGames = async () => {
     const gamesInProgress = games.filter(game => game.isBeingPlayed);
     if (gamesInProgress.length === 0) {
       alert('All games are already available!');
@@ -28,7 +31,7 @@ const AdminPanel: React.FC = () => {
     }
     
     if (confirm(`Reset ${gamesInProgress.length} games to available?`)) {
-      gamesInProgress.forEach(game => togglePlayingStatus(game.id));
+      await onResetAllGames();
     }
   };
 
@@ -82,7 +85,7 @@ const AdminPanel: React.FC = () => {
 
           <button 
             className="reset-button"
-            onClick={resetAllGames}
+            onClick={handleResetAllGames}
           >
             🔄 Reset All Games to Available
           </button>
@@ -95,7 +98,7 @@ const AdminPanel: React.FC = () => {
                   {game.title}
                 </span>
                 <button
-                  onClick={() => togglePlayingStatus(game.id)}
+                  onClick={() => onToggleStatus(game.id)}
                   className={game.isBeingPlayed ? 'make-available' : 'make-playing'}
                 >
                   {game.isBeingPlayed ? 'Make Available' : 'Mark Playing'}
