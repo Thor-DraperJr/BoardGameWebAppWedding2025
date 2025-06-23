@@ -9,15 +9,14 @@ param location string = resourceGroup().location
 @description('SKU for the static web app')
 param sku string = 'Free'
 
-resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
-  name: staticWebAppName
+resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {  name: staticWebAppName
   location: location
   sku: {
     name: sku
     tier: sku
   }
   properties: {
-    repositoryUrl: ''
+    repositoryUrl: 'https://github.com/Thor-DraperJr/BoardGameWebAppWedding2025'
     branch: 'main'
     buildProperties: {
       appLocation: '/'
