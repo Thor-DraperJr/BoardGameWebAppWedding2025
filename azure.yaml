@@ -9,10 +9,3 @@ services:
     project: .
     language: js
     host: staticwebapp
-
-hooks:
-  postprovision:
-    shell: pwsh
-    run: |
-      Write-Host "🎲 Wedding Board Games app has been deployed!"
-      Write-Host "You can now customize the games in src/data/games.ts"
