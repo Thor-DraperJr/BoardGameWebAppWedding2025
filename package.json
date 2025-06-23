@@ -1,8 +1,17 @@
 {
   "name": "wedding-board-games",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A beautiful board game management web app for wedding receptions",
   "type": "module",
+  "keywords": ["wedding", "board-games", "react", "typescript", "azure", "static-web-app"],
+  "author": "Thor Draper Jr.",
+  "license": "MIT",
+  "homepage": "https://wonderful-tree-023673a0f.6.azurestaticapps.net/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Thor-DraperJr/BoardGameWebAppWedding2025.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
