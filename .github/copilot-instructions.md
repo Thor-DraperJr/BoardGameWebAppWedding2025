@@ -177,6 +177,13 @@ try {
 
 ## Testing Conventions
 
+### Azure Static Web Apps Testing
+- **CRITICAL**: Always test the live Azure site for blank/white screen issues after deployment
+- Check browser console for JavaScript errors if the site appears blank
+- Test both the landing page and functionality on the live site
+- Verify API endpoints are responding correctly on production
+- Test on both desktop and mobile browsers
+
 ### Test File Naming
 - **Unit tests**: `[ComponentName].test.tsx`
 - **Integration tests**: `[FeatureName].integration.test.tsx`

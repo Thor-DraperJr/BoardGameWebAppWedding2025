@@ -6,7 +6,8 @@ import { API_BASE_URL_LOCAL, API_BASE_URL_PRODUCTION, POLLING_INTERVAL_MS } from
  * Follows naming convention: [name]Service.ts
  */
 class GameStateService {
-  private baseUrl: string;  private readonly POLL_INTERVAL = POLLING_INTERVAL_MS;
+  private baseUrl: string;
+  private readonly POLL_INTERVAL = POLLING_INTERVAL_MS;
   private pollTimeoutId: number | null = null;
 
   constructor() {
