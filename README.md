@@ -1,8 +1,13 @@
 # 🎲 Wedding Reception Board Games Web App
 
-A beautiful, interactive web application for managing board games at your wedding reception. Built with React, TypeScript, and deployed on Azure Static Web Apps.
+A beautiful, interactive web application for managing board games at your wedding reception. Built with React, TypeScript, and deployed on Azure Static Web Apps with automatic GitHub Actions deployment.
 
 **🌐 Live Demo**: [https://wonderful-tree-023673a0f.6.azurestaticapps.net/](https://wonderful-tree-023673a0f.6.azurestaticapps.net/)
+
+## 🚀 Deployment Status
+- ✅ **GitHub Actions Integration**: Automatic deployment on every push
+- ✅ **Production Ready**: No blank screen issues resolved  
+- ✅ **Real-time Updates**: Shared state across all users
 
 ## 🎯 Features
 
