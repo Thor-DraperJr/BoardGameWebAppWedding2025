@@ -112,6 +112,71 @@ npm install -g @azure/static-web-apps-cli
 # Deploy (requires existing Azure Static Web App)
 swa deploy --app-location . --output-location dist --deployment-token YOUR_TOKEN
 ```
+
+## ⚙️ Environment Variables
+
+This application uses environment variables for configuration. Copy `.env.example` to `.env.local` for local development.
+
+### Frontend Environment Variables
+
+The frontend uses Vite's environment variable system (prefix with `VITE_`):
+
+```bash
+# Application Information
+VITE_APP_NAME=Wedding Board Games
+VITE_APP_VERSION=1.0.0
+
+# API Configuration  
+VITE_API_BASE_URL_LOCAL=http://localhost:7071/api
+VITE_API_BASE_URL_PRODUCTION=/api
+
+# Polling Configuration
+VITE_POLLING_INTERVAL_MS=5000
+```
+
+### Azure Static Web Apps Environment Variables
+
+These are automatically set by Azure Static Web Apps:
+
+- `WEBSITE_SITE_NAME` - Name of the Static Web App
+- `WEBSITE_RESOURCE_GROUP` - Resource group name
+- `WEBSITE_DEPLOYMENT_ID` - Deployment identifier
+
+### Azure Functions (API) Environment Variables
+
+These are automatically configured by Azure Functions runtime:
+
+- `AzureWebJobsStorage` - Storage account connection string
+- `FUNCTIONS_EXTENSION_VERSION` - Functions runtime version (~4)
+- `FUNCTIONS_WORKER_RUNTIME` - Runtime language (node)
+
+### Custom Application Settings
+
+Add these in the Azure portal under Static Web App Configuration:
+
+```bash
+# Optional: Application Insights
+APPINSIGHTS_INSTRUMENTATIONKEY=your-app-insights-key
+APPLICATIONINSIGHTS_CONNECTION_STRING=your-connection-string
+
+# Optional: Custom wedding settings
+WEDDING_DATE=2025-06-21
+WEDDING_LOCATION=Beautiful Venue
+```
+
+### Local Development Setup
+
+1. Copy the environment example file:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Update values as needed for your local environment
+
+3. The application automatically detects the environment:
+   - Localhost → Uses local API endpoint
+   - Production → Uses relative API paths
+
 ## 🎲 Sample Game Data
 
 The app comes with 26 carefully selected board games perfect for wedding receptions:
@@ -244,6 +309,121 @@ This project successfully resolved several deployment challenges:
 6. **Production Deployment**: Used Azure Static Web Apps CLI for proper build deployment
 
 **Final Result**: ✅ Fully functional web app deployed to Azure Static Web Apps
+
+## 🏭 Production Deployment Guide
+
+### Prerequisites
+- Azure account with subscription
+- GitHub repository with your code
+- Node.js 18+ for local development
+
+### Deployment Methods
+
+#### Method 1: GitHub Actions (Recommended)
+1. **Fork this repository** or create your own based on this template
+2. **Create Azure Static Web App** in the Azure portal
+3. **Connect to GitHub** during creation - Azure will automatically create the workflow
+4. **Configure build settings**:
+   - App location: `/`
+   - API location: `api`
+   - Output location: `dist`
+5. **Set environment variables** in Azure portal under Configuration
+
+#### Method 2: Azure CLI
+```bash
+# Create resource group
+az group create --name rg-wedding-games --location eastus2
+
+# Create static web app
+az staticwebapp create \
+  --name wedding-board-games \
+  --resource-group rg-wedding-games \
+  --source https://github.com/yourusername/BoardGameWebAppWedding2025 \
+  --location eastus2 \
+  --branch main \
+  --app-location "/" \
+  --api-location "api" \
+  --output-location "dist"
+```
+
+### Production Configuration Checklist
+
+#### Azure Static Web Apps Settings
+- ✅ **Custom Domain**: Configure your wedding domain
+- ✅ **SSL Certificate**: Automatic HTTPS (Azure manages this)
+- ✅ **Environment Variables**: Set production API endpoints
+- ✅ **Authentication**: Configure if you want to restrict access
+
+#### Performance Optimization
+- ✅ **CDN**: Azure Static Web Apps includes global CDN
+- ✅ **Compression**: Enabled by default
+- ✅ **Caching**: Static assets cached with appropriate headers
+- ✅ **Bundle Optimization**: Vite automatically splits vendor chunks
+
+#### Security Configuration
+- ✅ **HTTPS Only**: Enforced by Azure Static Web Apps
+- ✅ **Security Headers**: Configured in `staticwebapp.config.json`
+- ✅ **CORS**: Properly configured for API endpoints
+- ✅ **Content Security Policy**: Defined to prevent XSS attacks
+
+### Troubleshooting Production Issues
+
+#### Common Deployment Problems
+
+**Blank/White Screen After Deployment**
+```bash
+# Check browser console for errors
+# Verify build output in GitHub Actions
+# Ensure staticwebapp.config.json has correct fallback routing
+```
+
+**API Functions Not Working**
+```bash
+# Verify functions build successfully
+# Check Azure Functions logs in Azure portal
+# Ensure CORS headers are properly set
+# Verify API routes in staticwebapp.config.json
+```
+
+**Build Failures**
+```bash
+# Check GitHub Actions workflow logs
+# Verify all dependencies are in package.json
+# Test build locally: npm run build
+# Check TypeScript compilation: npm run type-check
+```
+
+#### Performance Monitoring
+- Use Azure Application Insights for monitoring
+- Monitor Core Web Vitals in browser dev tools
+- Check Azure Static Web Apps analytics
+
+#### Backup and Recovery
+- GitHub repository serves as backup
+- Azure Static Web Apps supports deployment history
+- Export game data if using persistent storage
+
+## 🔧 Development Scripts
+
+```bash
+# Development
+npm run dev                 # Start development server
+npm run api:dev            # Start API functions locally
+npm run full-dev          # Start both frontend and API
+
+# Building
+npm run build             # Build frontend
+npm run api:build         # Build API functions
+npm run build:all         # Build everything
+
+# Quality Assurance
+npm run lint              # Run ESLint
+npm run lint:fix          # Fix ESLint issues
+npm run type-check        # TypeScript type checking
+
+# Cleanup
+npm run clean             # Remove build artifacts
+```
 
 ## 🤝 Contributing
 

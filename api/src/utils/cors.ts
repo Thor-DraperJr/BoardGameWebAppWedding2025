@@ -20,7 +20,7 @@ export function createCorsResponse(statusCode = 200, additionalHeaders: Record<s
 }
 
 export function createJsonResponse(
-  data: any,
+  data: unknown,
   statusCode = 200,
   additionalHeaders: Record<string, string> = {}
 ) {

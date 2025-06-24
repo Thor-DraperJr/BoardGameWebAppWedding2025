@@ -17,14 +17,17 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint:all": "npm run lint && cd api && npm run lint && cd ..",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "api:dev": "cd api && npm run start",
     "api:build": "cd api && npm run build",
     "api:install": "cd api && npm install",
+    "api:lint": "cd api && npm run lint",
     "full-dev": "concurrently \"npm run dev\" \"npm run api:dev\"",
     "build:all": "npm run build && npm run api:build",
-    "clean": "rimraf dist && cd api && npm run clean"
+    "clean": "rimraf dist && cd api && npm run clean",
+    "validate:production": "bash scripts/validate-deployment.sh"
   },
   "dependencies": {
     "react": "^18.2.0",
