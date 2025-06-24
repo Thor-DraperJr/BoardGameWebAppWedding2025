@@ -1,4 +1,5 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/functions';
+import { createCorsResponse, createJsonResponse, createErrorResponse } from '../utils/cors';
 
 interface GameState {
   id: string;
@@ -14,24 +15,18 @@ export async function getGames(request: HttpRequest, context: InvocationContext)
   context.log('Getting all game states');
   
   try {
+    // Handle CORS preflight
+    if (request.method === 'OPTIONS') {
+      return createCorsResponse();
+    }
+
     const states = Array.from(gameStates.values());
+    context.log(`Returning ${states.length} game states`);
     
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-      },
-      body: JSON.stringify(states)
-    };
+    return createJsonResponse(states);
   } catch (error) {
     context.log('Error getting games:', error);
-    return {
-      status: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
-    };
+    return createErrorResponse('Failed to retrieve game states');
   }
 }
 
@@ -39,25 +34,26 @@ export async function updateGameStatus(request: HttpRequest, context: Invocation
   context.log('Updating game status');
   
   try {
+    // Handle CORS preflight
     if (request.method === 'OPTIONS') {
-      return {
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-        }
-      };
+      return createCorsResponse();
+    }
+
+    // Get gameId from URL path parameters
+    const gameId = request.params.gameId;
+    if (!gameId) {
+      return createErrorResponse('Game ID is required in URL path', 400);
     }
 
     const body = await request.text();
-    const { gameId, isBeingPlayed, updatedBy } = JSON.parse(body);
+    if (!body) {
+      return createErrorResponse('Request body is required', 400);
+    }
+
+    const { isBeingPlayed, updatedBy } = JSON.parse(body);
     
-    if (!gameId) {
-      return {
-        status: 400,
-        body: JSON.stringify({ error: 'Game ID is required' })
-      };
+    if (typeof isBeingPlayed !== 'boolean') {
+      return createErrorResponse('isBeingPlayed must be a boolean value', 400);
     }
 
     const gameState: GameState = {
@@ -68,23 +64,15 @@ export async function updateGameStatus(request: HttpRequest, context: Invocation
     };
 
     gameStates.set(gameId, gameState);
+    context.log(`Updated game ${gameId} to ${isBeingPlayed ? 'playing' : 'available'}`);
     
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-      },
-      body: JSON.stringify(gameState)
-    };
+    return createJsonResponse(gameState);
   } catch (error) {
     context.log('Error updating game status:', error);
-    return {
-      status: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
-    };
+    if (error instanceof SyntaxError) {
+      return createErrorResponse('Invalid JSON in request body', 400);
+    }
+    return createErrorResponse('Failed to update game status');
   }
 }
 
@@ -92,38 +80,28 @@ export async function resetAllGames(request: HttpRequest, context: InvocationCon
   context.log('Resetting all games');
   
   try {
+    // Handle CORS preflight
     if (request.method === 'OPTIONS') {
-      return {
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-        }
-      };
+      return createCorsResponse();
     }
 
+    const previousCount = gameStates.size;
     gameStates.clear();
     
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-      },
-      body: JSON.stringify({ message: 'All games reset successfully' })
-    };
+    context.log(`Reset ${previousCount} game states`);
+    
+    return createJsonResponse({ 
+      message: 'All games reset successfully',
+      resetCount: previousCount,
+      timestamp: new Date().toISOString()
+    });
   } catch (error) {
     context.log('Error resetting games:', error);
-    return {
-      status: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
-    };
+    return createErrorResponse('Failed to reset games');
   }
 }
 
+// Function app registrations
 app.http('getGames', {
   methods: ['GET', 'OPTIONS'],
   authLevel: 'anonymous',
@@ -132,7 +110,7 @@ app.http('getGames', {
 });
 
 app.http('updateGameStatus', {
-  methods: ['POST', 'OPTIONS'],
+  methods: ['POST', 'PUT', 'OPTIONS'],
   authLevel: 'anonymous',
   route: 'games/{gameId}',
   handler: updateGameStatus

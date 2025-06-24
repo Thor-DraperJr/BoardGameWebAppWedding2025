@@ -16,7 +16,18 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint:all": "npm run lint && cd api && npm run lint && cd ..",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "api:dev": "cd api && npm run start",
+    "api:build": "cd api && npm run build",
+    "api:install": "cd api && npm install",
+    "api:lint": "cd api && npm run lint",
+    "full-dev": "concurrently \"npm run dev\" \"npm run api:dev\"",
+    "build:all": "npm run build && npm run api:build",
+    "clean": "rimraf dist && cd api && npm run clean",
+    "validate:production": "bash scripts/validate-deployment.sh"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -28,9 +39,12 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "rimraf": "^5.0.5",
+    "terser": "^5.16.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }

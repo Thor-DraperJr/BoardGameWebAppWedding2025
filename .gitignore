@@ -6,6 +6,7 @@ node_modules/
 # Production builds
 dist/
 build/
+api/dist/
 
 # Environment variables
 .env
@@ -37,6 +38,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+*.log
 
 # Coverage
 coverage/
@@ -44,6 +46,7 @@ coverage/
 # Cache
 .cache/
 .parcel-cache/
+.eslintcache
 
 # Runtime data
 pids
@@ -53,9 +56,6 @@ pids
 
 # Optional npm cache directory
 .npm
-
-# Optional eslint cache
-.eslintcache
 
 # Temporary folders
 tmp/
@@ -72,3 +72,18 @@ temp/
 
 # Azure CLI cache
 .azure-cli/
+
+# Static Web Apps CLI
+.swa/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Azure Functions
+api/local.settings.json
+api/bin/
+api/obj/
+
+# Lock files (keep package-lock.json but ignore others)
+yarn.lock
+pnpm-lock.yaml
