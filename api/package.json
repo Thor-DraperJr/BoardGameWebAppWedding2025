@@ -4,13 +4,21 @@
   "description": "Azure Functions API for wedding board games state management",
   "main": "src/functions/*.js",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "rimraf dist",
     "start": "func start",
-    "test": "echo \"No tests yet\""
+    "start:debug": "func start --debug",
+    "test": "echo \"No tests yet\"",
+    "prestart": "npm run build"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0"
   },
   "devDependencies": {
-    "@azure/functions": "^4.0.0"
+    "@azure/functions": "^4.0.0",
+    "typescript": "^5.2.2",
+    "rimraf": "^5.0.5",
+    "@types/node": "^20.0.0"
   }
 }
