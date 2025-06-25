@@ -2,16 +2,10 @@
   "name": "wedding-board-games-api",
   "version": "1.0.0",
   "description": "Azure Functions API for shared game state",
-  "main": "src/functions/*.js",
+  "main": "index.js",
   "scripts": {
-    "build": "echo 'No build needed for JavaScript'",
-    "start": "func start",
-    "test": "echo 'No tests specified'"
+    "start": "func start"
   },
-  "dependencies": {
-    "@azure/functions": "^4.0.0"
-  },
-  "devDependencies": {
-    "azure-functions-core-tools": "^4.0.0"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }
