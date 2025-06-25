@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Game State Test - v2</title>
-    <!-- Trigger deployment - GitHub Actions integrated -->
+    <title>Wedding Reception Games 2025</title>
     <style>
         * {
             margin: 0;
@@ -16,95 +15,42 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: #333;
+            line-height: 1.6;
         }
 
-        .container {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
             color: #4a5568;
         }
 
-        .status-display {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            border: 3px solid #e9ecef;
-            transition: all 0.3s ease;
-        }
-
-        .status-display.playing {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            border-color: #28a745;
-            transform: scale(1.02);
-        }
-
-        .status-text {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .status-text.playing {
-            color: #155724;
-        }
-
-        .status-text.available {
-            color: #721c24;
-        }
-
-        .game-button {
-            font-size: 1.3rem;
-            font-weight: 600;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            margin: 1rem;
-            transition: all 0.3s ease;
-            min-width: 250px;
-        }
-
-        .game-button.start {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-        }
-
-        .game-button.stop {
-            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
-            color: white;
-        }
-
-        .game-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .game-button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         .connection-status {
-            margin: 1rem 0;
-            padding: 0.5rem;
-            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .connection-status.online {
@@ -117,81 +63,368 @@
             color: #721c24;
         }
 
-        .instructions {
-            background: #e7f3ff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            border-left: 4px solid #007bff;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
-        .instructions h3 {
-            color: #007bff;
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-card.playing {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+
+        .game-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-available {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .status-playing {
+            background: #28a745;
+            color: white;
+        }
+
+        .game-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .game-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #667eea;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .currently-playing {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .playing-games {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .playing-game {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid #28a745;
+            min-width: 200px;
+        }
+
+        .playing-game-title {
+            font-weight: bold;
+            color: #155724;
             margin-bottom: 0.5rem;
         }
 
+        .playing-game-meta {
+            font-size: 0.8rem;
+            color: #155724;
+            opacity: 0.8;
+        }
+
+        .no-games-playing {
+            text-align: center;
+            color: #6b7280;
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
         .debug {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.9);
             padding: 1rem;
-            border-radius: 5px;
-            margin-top: 1rem;
+            border-radius: 10px;
+            margin-top: 2rem;
             font-family: monospace;
             font-size: 0.8rem;
-            text-align: left;
             max-height: 200px;
             overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎲 Wedding Games 2025</div>
+            <div class="connection-status" id="connectionStatus">
+                🔄 Connecting...
+            </div>
+        </div>
+    </header>
+
     <div class="container">
-        <h1>🎲 Game State Test</h1>
-        
-        <div class="connection-status" id="connectionStatus">
-            🔄 Connecting...
-        </div>
+        <!-- Currently Playing Section -->
+        <section class="currently-playing">
+            <h2 class="section-title">🎮 Currently Playing</h2>
+            <div class="playing-games" id="playingGames">
+                <div class="no-games-playing">
+                    No games currently being played. Start one below! 🎯
+                </div>
+            </div>
+        </section>
 
-        <div class="status-display" id="statusDisplay">
-            <div class="status-text" id="statusText">🔄 Loading...</div>
-            <div>Game Status</div>
-        </div>
+        <!-- Filters -->
+        <section class="filters">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search games..." />
+            </div>
+            <div class="filter-group">
+                <label for="typeFilter">Type:</label>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="durationFilter">Duration:</label>
+                <select id="durationFilter">
+                    <option value="">Any Duration</option>
+                    <option value="quick">Quick (≤20 min)</option>
+                    <option value="medium">Medium (21-45 min)</option>
+                    <option value="long">Long (45+ min)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="difficultyFilter">Difficulty:</label>
+                <select id="difficultyFilter">
+                    <option value="">Any Difficulty</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+        </section>
 
-        <button class="game-button start" id="gameButton" disabled>
-            ⏳ Loading...
-        </button>
+        <!-- Games Grid -->
+        <section class="games-grid" id="gamesGrid">
+            <div class="loading">
+                <div>🎲 Loading wedding games...</div>
+            </div>
+        </section>
 
-        <div class="instructions">
-            <h3>🧪 Multi-Device Test</h3>
-            <p><strong>Step 1:</strong> Open this same URL in an incognito/private browser window</p>
-            <p><strong>Step 2:</strong> Click "Start Playing" in one window</p>
-            <p><strong>Step 3:</strong> Watch the other window update automatically!</p>
-            <p><strong>Updates every:</strong> 3 seconds</p>
-        </div>
-
-        <div class="debug" id="debugLog">
+        <!-- Debug Log -->
+        <section class="debug" id="debugLog">
             Debug log will appear here...
-        </div>
+        </section>
     </div>
 
     <script>
-        // Game state
-        let gameState = {
-            isPlaying: false,
-            lastUpdated: null,
-            clickCount: 0
-        };
-        
-        let isLoading = false;
+        // Global state
+        let allGames = [];
+        let gameStates = {}; // gameId -> { isPlaying: bool, startedAt: timestamp, players: [] }
         let isOnline = false;
+        let isLoading = false;
 
         // DOM elements
         const connectionStatus = document.getElementById('connectionStatus');
-        const statusDisplay = document.getElementById('statusDisplay');
-        const statusText = document.getElementById('statusText');
-        const gameButton = document.getElementById('gameButton');
+        const playingGames = document.getElementById('playingGames');
+        const gamesGrid = document.getElementById('gamesGrid');
         const debugLog = document.getElementById('debugLog');
+        const searchInput = document.getElementById('searchInput');
+        const typeFilter = document.getElementById('typeFilter');
+        const durationFilter = document.getElementById('durationFilter');
+        const difficultyFilter = document.getElementById('difficultyFilter');
 
-        // API endpoint - will use Azure Function
+        // API endpoint
         const API_BASE = '/api';
 
         // Debug logging
@@ -200,51 +433,45 @@
             const logEntry = `[${timestamp}] ${message}`;
             debugLog.innerHTML = logEntry + '<br>' + debugLog.innerHTML;
             
-            // Keep only last 20 lines
             const lines = debugLog.innerHTML.split('<br>');
-            if (lines.length > 20) {
-                debugLog.innerHTML = lines.slice(0, 20).join('<br>');
+            if (lines.length > 15) {
+                debugLog.innerHTML = lines.slice(0, 15).join('<br>');
             }
         }
 
-        // Update the UI based on current state
-        function updateUI() {
-            // Connection status
-            connectionStatus.className = `connection-status ${isOnline ? 'online' : 'offline'}`;
-            connectionStatus.textContent = isOnline ? '🟢 Connected to server' : '🔴 Server offline';
-
-            // Game status display
-            statusDisplay.className = `status-display ${gameState.isPlaying ? 'playing' : ''}`;
-            statusText.className = `status-text ${gameState.isPlaying ? 'playing' : 'available'}`;
-            statusText.textContent = gameState.isPlaying ? '🎮 GAME IN PROGRESS' : '✅ GAME AVAILABLE';
-
-            // Button
-            gameButton.disabled = isLoading;
-            gameButton.className = `game-button ${gameState.isPlaying ? 'stop' : 'start'}`;
-            gameButton.textContent = isLoading 
-                ? '⏳ Updating...' 
-                : gameState.isPlaying 
-                    ? '🛑 Mark as Available' 
-                    : '🎮 Start Playing';
+        // Load games from JSON
+        async function loadGames() {
+            try {
+                const response = await fetch('/games.json');
+                allGames = await response.json();
+                
+                // Populate filter options
+                const gameTypes = [...new Set(allGames.map(g => g.gameType))].sort();
+                typeFilter.innerHTML = '<option value="">All Types</option>' + 
+                    gameTypes.map(type => `<option value="${type}">${type}</option>`).join('');
+                
+                addDebugLog(`Loaded ${allGames.length} games`);
+                renderGames();
+            } catch (error) {
+                addDebugLog(`Failed to load games: ${error.message}`);
+            }
         }
 
-        // Fetch current game state from server
-        async function fetchGameState() {
+        // Update connection status
+        function updateConnectionStatus() {
+            connectionStatus.className = `connection-status ${isOnline ? 'online' : 'offline'}`;
+            connectionStatus.textContent = isOnline ? '🟢 Connected' : '🔴 Offline';
+        }
+
+        // Fetch game states from server
+        async function fetchGameStates() {
             try {
-                addDebugLog('Fetching game state...');
-                
-                const response = await fetch(`${API_BASE}/status`);
+                const response = await fetch(`${API_BASE}/games`);
                 
                 if (response.ok) {
-                    const data = await response.json();
-                    gameState = {
-                        isPlaying: data.isActive || false,
-                        lastUpdated: data.lastUpdated,
-                        clickCount: data.clickCount || 0
-                    };
+                    gameStates = await response.json();
                     isOnline = true;
-                    
-                    addDebugLog(`State fetched: ${gameState.isPlaying ? 'PLAYING' : 'AVAILABLE'} (clicks: ${gameState.clickCount})`);
+                    addDebugLog(`Fetched states for ${Object.keys(gameStates).length} games`);
                 } else {
                     isOnline = false;
                     addDebugLog(`Fetch failed: ${response.status}`);
@@ -254,40 +481,37 @@
                 addDebugLog(`Fetch error: ${error.message}`);
             }
             
-            updateUI();
+            updateConnectionStatus();
+            renderCurrentlyPlaying();
+            renderGames();
         }
 
-        // Toggle game state on server
-        async function toggleGameState() {
+        // Toggle game state
+        async function toggleGame(gameId, isPlaying) {
             if (isLoading) return;
             
             isLoading = true;
-            updateUI();
+            const game = allGames.find(g => g.id === gameId);
             
             try {
-                const newState = !gameState.isPlaying;
-                addDebugLog(`Toggling game to: ${newState ? 'PLAYING' : 'AVAILABLE'}`);
+                addDebugLog(`${isPlaying ? 'Starting' : 'Stopping'} ${game?.title}`);
                 
-                const response = await fetch(`${API_BASE}/toggle`, {
+                const response = await fetch(`${API_BASE}/games`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        isActive: newState
+                        gameId,
+                        isPlaying,
+                        gameTitle: game?.title
                     })
                 });
                 
                 if (response.ok) {
-                    const data = await response.json();
-                    gameState = {
-                        isPlaying: data.isActive || false,
-                        lastUpdated: data.lastUpdated,
-                        clickCount: data.clickCount || 0
-                    };
+                    gameStates = await response.json();
                     isOnline = true;
-                    
-                    addDebugLog(`Toggle success: ${gameState.isPlaying ? 'PLAYING' : 'AVAILABLE'}`);
+                    addDebugLog(`${game?.title} ${isPlaying ? 'started' : 'stopped'} successfully`);
                 } else {
                     isOnline = false;
                     addDebugLog(`Toggle failed: ${response.status}`);
@@ -298,22 +522,162 @@
             }
             
             isLoading = false;
-            updateUI();
+            updateConnectionStatus();
+            renderCurrentlyPlaying();
+            renderGames();
+        }
+
+        // Render currently playing games
+        function renderCurrentlyPlaying() {
+            const playingGamesList = Object.entries(gameStates)
+                .filter(([gameId, state]) => state.isPlaying)
+                .map(([gameId, state]) => {
+                    const game = allGames.find(g => g.id === gameId);
+                    return { ...game, state };
+                });
+
+            if (playingGamesList.length === 0) {
+                playingGames.innerHTML = `
+                    <div class="no-games-playing">
+                        No games currently being played. Start one below! 🎯
+                    </div>
+                `;
+            } else {
+                playingGames.innerHTML = playingGamesList.map(game => `
+                    <div class="playing-game">
+                        <div class="playing-game-title">${game.title}</div>
+                        <div class="playing-game-meta">
+                            ${game.playerCount} • ${game.duration}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Filter games based on search and filters
+        function filterGames() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const typeValue = typeFilter.value;
+            const durationValue = durationFilter.value;
+            const difficultyValue = difficultyFilter.value;
+
+            return allGames.filter(game => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    game.title.toLowerCase().includes(searchTerm) ||
+                    game.gameType.toLowerCase().includes(searchTerm);
+
+                // Type filter
+                const matchesType = !typeValue || game.gameType === typeValue;
+
+                // Duration filter
+                let matchesDuration = true;
+                if (durationValue) {
+                    const duration = game.duration.toLowerCase();
+                    if (durationValue === 'quick') {
+                        matchesDuration = duration.includes('15') || duration.includes('20') || 
+                            (duration.includes('min') && parseInt(duration) <= 20);
+                    } else if (durationValue === 'medium') {
+                        matchesDuration = (duration.includes('25') || duration.includes('30') || 
+                            duration.includes('45')) && !duration.includes('60');
+                    } else if (durationValue === 'long') {
+                        matchesDuration = duration.includes('60') || duration.includes('90') ||
+                            (duration.includes('45') && duration.includes('min'));
+                    }
+                }
+
+                // Difficulty filter
+                const matchesDifficulty = !difficultyValue || game.difficulty === difficultyValue;
+
+                return matchesSearch && matchesType && matchesDuration && matchesDifficulty;
+            });
+        }
+
+        // Render games grid
+        function renderGames() {
+            const filteredGames = filterGames();
+            
+            if (filteredGames.length === 0) {
+                gamesGrid.innerHTML = `
+                    <div class="loading">
+                        <div>🎮 No games match your filters. Try adjusting your search!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            gamesGrid.innerHTML = filteredGames.map(game => {
+                const state = gameStates[game.id];
+                const isPlaying = state?.isPlaying || false;
+                
+                return `
+                    <div class="game-card ${isPlaying ? 'playing' : ''}">
+                        <div class="game-header">
+                            <div>
+                                <div class="game-title">${game.title}</div>
+                                <div class="game-type">${game.gameType}</div>
+                            </div>
+                            <div class="game-status ${isPlaying ? 'status-playing' : 'status-available'}">
+                                ${isPlaying ? 'Playing' : 'Available'}
+                            </div>
+                        </div>
+                        
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <span>👥</span>
+                                <span>${game.playerCount}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>⏱️</span>
+                                <span>${game.duration}</span>
+                            </div>
+                            ${game.difficulty ? `
+                                <div class="meta-item">
+                                    <span>🎯</span>
+                                    <span>${game.difficulty}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="game-actions">
+                            ${isPlaying ? `
+                                <button class="btn btn-danger" onclick="toggleGame('${game.id}', false)" 
+                                        ${isLoading ? 'disabled' : ''}>
+                                    🛑 Mark Available
+                                </button>
+                            ` : `
+                                <button class="btn btn-primary" onclick="toggleGame('${game.id}', true)" 
+                                        ${isLoading ? 'disabled' : ''}>
+                                    🎮 Start Playing
+                                </button>
+                            `}
+                            
+                            <a href="${game.instructionsUrl}" target="_blank" class="btn btn-outline">
+                                📺 How to Play
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Event listeners
-        gameButton.addEventListener('click', toggleGameState);
+        searchInput.addEventListener('input', renderGames);
+        typeFilter.addEventListener('change', renderGames);
+        durationFilter.addEventListener('change', renderGames);
+        difficultyFilter.addEventListener('change', renderGames);
 
         // Initialize
-        addDebugLog('App starting...');
-        addDebugLog(`API endpoint: ${API_BASE}`);
+        addDebugLog('Wedding Games app starting...');
+        updateConnectionStatus();
+        loadGames();
         
-        // Initial fetch
-        fetchGameState();
+        // Initially try to fetch game states (will likely fail until we update the API)
+        fetchGameStates();
         
-        // Poll every 3 seconds for updates
-        setInterval(fetchGameState, 3000);
-        addDebugLog('Polling started (every 3 seconds)');
+        // Poll for updates every 5 seconds
+        setInterval(fetchGameStates, 5000);
+        addDebugLog('Auto-refresh started (every 5 seconds)');
     </script>
 </body>
 </html>
