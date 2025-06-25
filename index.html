@@ -12,10 +12,7 @@
         }
 
         body {
-            font-fami        <!-- Currently Playing Section -->
-        <section class="currently-playing">
-            <h2 class="section-title">👥 Currently Playing</h2>
-            <div class="playing-games" id="playingGames">-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
@@ -348,7 +345,7 @@
     <div class="container">
         <!-- Currently Playing Section -->
         <section class="currently-playing">
-            <h2 class="section-title">� Currently Playing</h2>
+            <h2 class="section-title">⭐ Currently Playing</h2>
             <div class="playing-games" id="playingGames">
                 <div class="no-games-playing">
                     No games currently being played. Start one below! 🎯
@@ -590,7 +587,7 @@
             if (filteredGames.length === 0) {
                 gamesGrid.innerHTML = `
                     <div class="loading">
-                        <div>� No games match your filters. Try adjusting your search!</div>
+                        <div>🎯 No games match your filters. Try adjusting your search!</div>
                     </div>
                 `;
                 return;
@@ -638,7 +635,7 @@
                             ` : `
                                 <button class="btn btn-primary" onclick="toggleGame('${game.id}', true)" 
                                         ${isLoading ? 'disabled' : ''}>
-                                    � Start Playing
+                                    🎮 Start Playing
                                 </button>
                             `}
                             
