@@ -44,6 +44,43 @@ We've got 20 amazing games ranging from quick 15-minute party games to strategic
 - **Abstract Strategy**: Quixo, Quoridor
 - **And more!**
 
+## ⚡ How Real-Time Sync Works
+
+Ever wondered how everyone sees game updates instantly? Here's the magic behind the scenes:
+
+### 🏠 **Shared State Management**
+The Azure Functions API maintains an in-memory `allGameStates` object that tracks which games are currently being played:
+```javascript
+// Example state
+{ 
+  "codenames": { 
+    isPlaying: true, 
+    startedAt: "2025-06-25T15:30:00Z", 
+    gameTitle: "Codenames" 
+  } 
+}
+```
+
+### 🎯 **When Someone Clicks "Start Playing"**
+1. **Guest clicks** "Start Playing" on any game
+2. **Frontend sends** `POST /api/games` with game details
+3. **API updates** the shared state object
+4. **All devices** see the change within 5 seconds
+
+### 🔄 **Auto-Sync Magic**
+Every device polls the API every 5 seconds:
+```javascript
+setInterval(fetchGameStates, 5000); // Check for updates every 5 seconds
+```
+
+This means when Person A starts Codenames, Persons B, C, and D automatically see "⭐ Currently Playing: Codenames" on their phones within 5 seconds - no refresh needed!
+
+### 💡 **Why This Works Perfectly**
+- **Simple & Reliable**: No complex websockets or real-time databases
+- **Mobile Friendly**: Works on any device with a browser  
+- **Wedding Appropriate**: 5-second updates are perfect for board game coordination
+- **Self-Healing**: If someone's device disconnects, others can still manage games
+
 ## 🔧 Local Development
 
 ```bash
@@ -88,5 +125,5 @@ Feel free to fork this for your own celebration! Just update:
 
 ---
 
-*Built with ❤️ by Thor for Thor & Lina's wedding reception 2025*
+*Built with ❤️ by Thor for Thor & Lina's wedding reception 2025**
 *Collaboratively coded with Claude - because the best code comes from great ideas and good vibes!*
