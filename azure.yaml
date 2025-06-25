@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: wedding-board-games
+name: simple-game-state-test
 metadata:
-  template: wedding-board-games@0.0.1-beta
+  template: simple-game-state-test@1.0.0
 
 services:
   web:

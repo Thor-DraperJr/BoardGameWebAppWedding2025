@@ -1,29 +1,17 @@
 {
-  "name": "wedding-games-api",
+  "name": "wedding-board-games-api",
   "version": "1.0.0",
-  "description": "Azure Functions API for wedding board games state management",
+  "description": "Azure Functions API for shared game state",
   "main": "src/functions/*.js",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "clean": "rimraf dist",
+    "build": "echo 'No build needed for JavaScript'",
     "start": "func start",
-    "start:debug": "func start --debug",
-    "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0 --fix",
-    "test": "echo \"No tests yet\"",
-    "prestart": "npm run build"
+    "test": "echo 'No tests specified'"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0"
   },
   "devDependencies": {
-    "@azure/functions": "^4.0.0",
-    "typescript": "^5.2.2",
-    "rimraf": "^5.0.5",
-    "@types/node": "^20.0.0",
-    "eslint": "^8.57.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "@typescript-eslint/eslint-plugin": "^7.2.0"
+    "azure-functions-core-tools": "^4.0.0"
   }
 }

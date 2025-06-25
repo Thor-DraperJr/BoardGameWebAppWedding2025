@@ -1,13 +1,318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🎲</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wedding Reception Board Games</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game State Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        .status-display {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .status-display.playing {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: #28a745;
+            transform: scale(1.02);
+        }
+
+        .status-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-text.playing {
+            color: #155724;
+        }
+
+        .status-text.available {
+            color: #721c24;
+        }
+
+        .game-button {
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+            min-width: 250px;
+        }
+
+        .game-button.start {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .game-button.stop {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+        }
+
+        .game-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .connection-status {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .connection-status.online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .connection-status.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid #007bff;
+        }
+
+        .instructions h3 {
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+
+        .debug {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Game State Test</h1>
+        
+        <div class="connection-status" id="connectionStatus">
+            🔄 Connecting...
+        </div>
+
+        <div class="status-display" id="statusDisplay">
+            <div class="status-text" id="statusText">🔄 Loading...</div>
+            <div>Game Status</div>
+        </div>
+
+        <button class="game-button start" id="gameButton" disabled>
+            ⏳ Loading...
+        </button>
+
+        <div class="instructions">
+            <h3>🧪 Multi-Device Test</h3>
+            <p><strong>Step 1:</strong> Open this same URL in an incognito/private browser window</p>
+            <p><strong>Step 2:</strong> Click "Start Playing" in one window</p>
+            <p><strong>Step 3:</strong> Watch the other window update automatically!</p>
+            <p><strong>Updates every:</strong> 3 seconds</p>
+        </div>
+
+        <div class="debug" id="debugLog">
+            Debug log will appear here...
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let gameState = {
+            isPlaying: false,
+            lastUpdated: null,
+            clickCount: 0
+        };
+        
+        let isLoading = false;
+        let isOnline = false;
+
+        // DOM elements
+        const connectionStatus = document.getElementById('connectionStatus');
+        const statusDisplay = document.getElementById('statusDisplay');
+        const statusText = document.getElementById('statusText');
+        const gameButton = document.getElementById('gameButton');
+        const debugLog = document.getElementById('debugLog');
+
+        // API endpoint - will use Azure Function
+        const API_BASE = '/api';
+
+        // Debug logging
+        function addDebugLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            debugLog.innerHTML = logEntry + '<br>' + debugLog.innerHTML;
+            
+            // Keep only last 20 lines
+            const lines = debugLog.innerHTML.split('<br>');
+            if (lines.length > 20) {
+                debugLog.innerHTML = lines.slice(0, 20).join('<br>');
+            }
+        }
+
+        // Update the UI based on current state
+        function updateUI() {
+            // Connection status
+            connectionStatus.className = `connection-status ${isOnline ? 'online' : 'offline'}`;
+            connectionStatus.textContent = isOnline ? '🟢 Connected to server' : '🔴 Server offline';
+
+            // Game status display
+            statusDisplay.className = `status-display ${gameState.isPlaying ? 'playing' : ''}`;
+            statusText.className = `status-text ${gameState.isPlaying ? 'playing' : 'available'}`;
+            statusText.textContent = gameState.isPlaying ? '🎮 GAME IN PROGRESS' : '✅ GAME AVAILABLE';
+
+            // Button
+            gameButton.disabled = isLoading;
+            gameButton.className = `game-button ${gameState.isPlaying ? 'stop' : 'start'}`;
+            gameButton.textContent = isLoading 
+                ? '⏳ Updating...' 
+                : gameState.isPlaying 
+                    ? '🛑 Mark as Available' 
+                    : '🎮 Start Playing';
+        }
+
+        // Fetch current game state from server
+        async function fetchGameState() {
+            try {
+                addDebugLog('Fetching game state...');
+                
+                const response = await fetch(`${API_BASE}/status`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    gameState = {
+                        isPlaying: data.isActive || false,
+                        lastUpdated: data.lastUpdated,
+                        clickCount: data.clickCount || 0
+                    };
+                    isOnline = true;
+                    
+                    addDebugLog(`State fetched: ${gameState.isPlaying ? 'PLAYING' : 'AVAILABLE'} (clicks: ${gameState.clickCount})`);
+                } else {
+                    isOnline = false;
+                    addDebugLog(`Fetch failed: ${response.status}`);
+                }
+            } catch (error) {
+                isOnline = false;
+                addDebugLog(`Fetch error: ${error.message}`);
+            }
+            
+            updateUI();
+        }
+
+        // Toggle game state on server
+        async function toggleGameState() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            updateUI();
+            
+            try {
+                const newState = !gameState.isPlaying;
+                addDebugLog(`Toggling game to: ${newState ? 'PLAYING' : 'AVAILABLE'}`);
+                
+                const response = await fetch(`${API_BASE}/toggle`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        isActive: newState
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    gameState = {
+                        isPlaying: data.isActive || false,
+                        lastUpdated: data.lastUpdated,
+                        clickCount: data.clickCount || 0
+                    };
+                    isOnline = true;
+                    
+                    addDebugLog(`Toggle success: ${gameState.isPlaying ? 'PLAYING' : 'AVAILABLE'}`);
+                } else {
+                    isOnline = false;
+                    addDebugLog(`Toggle failed: ${response.status}`);
+                }
+            } catch (error) {
+                isOnline = false;
+                addDebugLog(`Toggle error: ${error.message}`);
+            }
+            
+            isLoading = false;
+            updateUI();
+        }
+
+        // Event listeners
+        gameButton.addEventListener('click', toggleGameState);
+
+        // Initialize
+        addDebugLog('App starting...');
+        addDebugLog(`API endpoint: ${API_BASE}`);
+        
+        // Initial fetch
+        fetchGameState();
+        
+        // Poll every 3 seconds for updates
+        setInterval(fetchGameState, 3000);
+        addDebugLog('Polling started (every 3 seconds)');
+    </script>
+</body>
 </html>

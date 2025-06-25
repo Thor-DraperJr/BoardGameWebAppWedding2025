@@ -1,52 +1,24 @@
 {
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/api/*", "/*.{js,css,woff,woff2,ttf,svg,png,jpg,jpeg,gif,webp,ico,json}"]
-  },
   "routes": [
     {
       "route": "/api/*",
       "allowedRoles": ["anonymous"]
     },
     {
-      "route": "/api/games/reset",
-      "allowedRoles": ["anonymous"],
-      "methods": ["POST", "OPTIONS"]
-    },
-    {
       "route": "/*",
-      "headers": {
-        "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
-        "X-XSS-Protection": "1; mode=block",
-        "Referrer-Policy": "strict-origin-when-cross-origin",
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' /api; frame-ancestors 'none';"
-      }
-    },
-    {
-      "route": "/assets/*",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    }
-  ],
-  "responseOverrides": {
-    "404": {
-      "rewrite": "/index.html",
+      "serve": "/index.html",
       "statusCode": 200
     }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html"
   },
   "mimeTypes": {
-    ".json": "application/json",
-    ".js": "application/javascript",
-    ".css": "text/css",
-    ".svg": "image/svg+xml",
-    ".woff": "font/woff",
-    ".woff2": "font/woff2"
+    ".html": "text/html",
+    ".js": "text/javascript",
+    ".css": "text/css"
   },
   "globalHeaders": {
-    "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
-    "X-XSS-Protection": "1; mode=block"
+    "Cache-Control": "no-cache"
   }
 }
