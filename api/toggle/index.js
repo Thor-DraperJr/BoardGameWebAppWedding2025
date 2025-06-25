@@ -1,9 +1,4 @@
-// Global variable for shared state (persists in function app container)
-let globalGameState = { 
-  isActive: false, 
-  lastUpdated: new Date().toISOString(),
-  clickCount: 0
-};
+const sharedState = require('../shared/gameState');
 
 module.exports = async function (context, req) {
   context.log('POST /api/toggle - Toggling game state');
@@ -27,13 +22,16 @@ module.exports = async function (context, req) {
     const requestBody = req.body || {};
     const newActiveState = requestBody.isActive;
 
+    let updatedState;
     if (typeof newActiveState === 'boolean') {
-      // Update global state
-      globalGameState.isActive = newActiveState;
-      globalGameState.lastUpdated = new Date().toISOString();
-      globalGameState.clickCount = (globalGameState.clickCount || 0) + 1;
-      
-      context.log(`State updated: isActive=${globalGameState.isActive}, clicks=${globalGameState.clickCount}`);
+      // Update shared state with specific value
+      updatedState = sharedState.setState({ isActive: newActiveState });
+      updatedState.clickCount = (updatedState.clickCount || 0) + 1;
+      context.log(`State updated: isActive=${updatedState.isActive}, clicks=${updatedState.clickCount}`);
+    } else {
+      // Toggle state
+      updatedState = sharedState.toggleActive();
+      context.log(`State toggled: isActive=${updatedState.isActive}, clicks=${updatedState.clickCount}`);
     }
 
     context.res = {
@@ -44,7 +42,7 @@ module.exports = async function (context, req) {
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Content-Type': 'application/json'
       },
-      body: globalGameState
+      body: updatedState
     };
     
   } catch (error) {

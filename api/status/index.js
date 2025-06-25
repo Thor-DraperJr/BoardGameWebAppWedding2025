@@ -1,12 +1,10 @@
-// Global variable for shared state (persists in function app container)
-let globalGameState = { 
-  isActive: false, 
-  lastUpdated: new Date().toISOString(),
-  clickCount: 0
-};
+const sharedState = require('../shared/gameState');
 
 module.exports = async function (context, req) {
   context.log('GET /api/status - Fetching current state');
+  
+  // Get current shared state
+  const currentState = sharedState.getState();
   
   // Handle CORS
   context.res = {
@@ -17,8 +15,8 @@ module.exports = async function (context, req) {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Content-Type': 'application/json'
     },
-    body: globalGameState
+    body: currentState
   };
   
-  context.log(`Current state: ${JSON.stringify(globalGameState)}`);
+  context.log(`Current state: ${JSON.stringify(currentState)}`);
 };
